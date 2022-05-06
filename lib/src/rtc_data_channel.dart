@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'enums.dart';
@@ -66,6 +67,7 @@ abstract class RTCDataChannel {
 
   Function(RTCDataChannelState state)? onDataChannelState;
   Function(RTCDataChannelMessage data)? onMessage;
+  Function(int sentDataSize)? onBufferedAmountChanged;
 
   /// Get current state.
   RTCDataChannelState? get state;
@@ -85,6 +87,9 @@ abstract class RTCDataChannel {
   /// Stream of incoming messages. Emits the message.
   /// Closes when the [RTCDataChannel] is closed.
   late Stream<RTCDataChannelMessage> messageStream;
+
+  // Stream of buffered amount changed with the sent data size
+  late Stream<int> bufferedAmountStream;
 
   /// Send a message to this datachannel.
   /// To send a text message, use the default constructor to instantiate a text [RTCDataChannelMessage]
